@@ -6,17 +6,17 @@
 
 **Muhammad Uzair Arif** · Cohort `02-Weekend-ISB`
 
-<img src="https://img.shields.io/badge/FUNDED_BY-PSEB-01411C?style=for-the-badge" alt="Funded by PSEB" />
+<img src="https://img.shields.io/badge/BY-PSEB_DEPLOY-01411C?style=for-the-badge" alt="A PSEB DEPLOY initiative" />
 <img src="https://img.shields.io/badge/TRAINED_BY-ATOMCAMP-FF6B35?style=for-the-badge" alt="Trained by Atomcamp" />
-<img src="https://img.shields.io/badge/SC_500_CERT-FUNDED_ON_COMPLETION-1F4E79?style=for-the-badge" alt="SC-500 certification funded on completion" />
+<img src="https://img.shields.io/badge/SC_500-CERTIFICATION_BY_PSEB-1F4E79?style=for-the-badge" alt="SC-500 certification by PSEB" />
 
 <img src="https://img.shields.io/badge/track-Digital_Forensics_%26_Cyber_Security-0F2D44?style=flat-square" alt="Track" />
 <img src="https://img.shields.io/badge/duration-3_Months_Weekend_Cohort-17A398?style=flat-square" alt="Duration" />
 <img src="https://img.shields.io/badge/assignments-3_of_4-2E74B5?style=flat-square" alt="Assignments" />
 <img src="https://img.shields.io/badge/status-In_Progress-FFB300?style=flat-square" alt="Status" />
 
-<img src="https://img.shields.io/badge/Kali_Linux-10.0.2.4_attacker-5586A5?style=flat-square&logo=kalilinux&logoColor=white" alt="Kali Linux" />
-<img src="https://img.shields.io/badge/Metasploitable_2-10.0.2.5_target-8B0000?style=flat-square&logo=virtualbox&logoColor=white" alt="Metasploitable 2" />
+<img src="https://img.shields.io/badge/Kali_Linux-attacker_vm-5586A5?style=flat-square&logo=kalilinux&logoColor=white" alt="Kali Linux" />
+<img src="https://img.shields.io/badge/Metasploitable_2-target_vm-8B0000?style=flat-square&logo=virtualbox&logoColor=white" alt="Metasploitable 2" />
 <img src="https://img.shields.io/badge/Nmap-7.95-21759B?style=flat-square&logo=nmap&logoColor=white" alt="Nmap" />
 <img src="https://img.shields.io/badge/Metasploit-msf6-2596BE?style=flat-square&logo=metasploit&logoColor=white" alt="Metasploit" />
 <img src="https://img.shields.io/badge/GVM_OpenVAS-vulnerability_scanning-3E7BFA?style=flat-square&logo=openvas&logoColor=white" alt="OpenVAS" />
@@ -30,7 +30,7 @@
 
 ## About this repository
 
-This is the submission portfolio for the **Digital Forensics & Cyber Security (DFCS) weekend bootcamp**, a **PSEB DEPLOY** initiative: fully funded by the **Pakistan Software Export Board (PSEB)** and delivered through **Atomcamp**. Every assignment is submitted here as Markdown with terminal evidence, and on successful completion of the programme PSEB funds the **SC-500 certification**.
+This is the submission portfolio for the **Digital Forensics & Cyber Security (DFCS) weekend bootcamp**, a **PSEB DEPLOY** initiative by the **Pakistan Software Export Board (PSEB)**, delivered through **Atomcamp**. Every assignment is submitted here as Markdown with terminal evidence, and on successful completion of the programme PSEB covers the **SC-500 certification**.
 
 Every claim in the assignments follows the course standard: each one is backed by a command, a screenshot or a cited source. All hands-on work was performed against my own isolated lab, never against systems I do not own.
 
@@ -42,7 +42,7 @@ Every claim in the assignments follows the course standard: each one is backed b
 | **Training partner** | Atomcamp |
 | **Track** | SC-500 - Digital Forensics & Cyber Security |
 | **Format** | Weekend cohort, approximately 3 months |
-| **Certification** | SC-500, funded by PSEB on completion |
+| **Certification** | SC-500 by PSEB on programme completion |
 | **Trainer** | Waseem Abbas Khan (Senior Cybersecurity Specialist, CEI Master Trainer) |
 
 ## Course outline and progress
@@ -73,10 +73,10 @@ Topics the handouts have already announced for later weekends: operating systems
 
 ## Lab environment
 
-| Role | Operating system | Address | Network |
-|---|---|---|---|
-| Attacker | Kali Linux | `10.0.2.4` | VirtualBox NAT |
-| Target | Metasploitable 2 | `10.0.2.5` | same isolated segment |
+| Role | Operating system | Network |
+|---|---|---|
+| Attacker | Kali Linux | isolated VirtualBox NAT segment |
+| Target | Metasploitable 2 (VulnHub) | same isolated segment |
 
 Metasploitable 2 is an intentionally vulnerable training machine from VulnHub, kept on an isolated NAT segment so it is unreachable from any real network. Every technique in this portfolio was executed against my own lab only.
 
@@ -119,6 +119,6 @@ All scanning and exploitation in this portfolio targets my own Metasploitable 2 
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:17A398,100:0F2D44&height=90&section=footer" width="100%" />
 
-**Funded by PSEB (Pakistan Software Export Board) · Delivered by Atomcamp · SC-500 certification on completion**
+**A PSEB DEPLOY initiative by the Pakistan Software Export Board · Delivered by Atomcamp · SC-500 certification on completion**
 
 </div>
