@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Student** | `Uzair Arif` |
-| **Cohort** | `<<ADD YOUR COHORT>>` |
+| **Student** | `Muhammad Uzair Arif` |
+| **Cohort** | `02-Weekend-ISB` |
 | **Programme** | Digital Forensics & Cyber Security (DFCS) - Atomcamp |
 | **Tasks** | A (compulsory) · B2 (Linux permissions) · B4 (OpenSSL and `Salted__`) |
 | **Environment** | Kali Linux VM (VirtualBox NAT) · OpenSSL 3.x · terminal user `pc@hello` |

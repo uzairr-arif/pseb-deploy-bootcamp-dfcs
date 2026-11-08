@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| **Student** | `Uzair Arif` |
-| **Cohort** | `<<ADD YOUR COHORT>>` |
+| **Student** | `Muhammad Uzair Arif` |
+| **Cohort** | `02-Weekend-ISB` |
 | **Programme** | Digital Forensics & Cyber Security (DFCS) - Atomcamp |
 | **Tasks** | A (three findings) · B1 (discovery tools) · B3 (CVSS decode) |
 | **Environment** | Kali Linux 10.0.2.4 (attacker) -> Metasploitable 2 10.0.2.5 (target), VirtualBox NAT, 10.0.2.0/24 |

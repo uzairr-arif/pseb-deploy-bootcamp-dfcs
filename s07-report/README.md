@@ -5,7 +5,7 @@
 | | |
 |---|---|
 | **Target** | Metasploitable 2 - `10.0.2.5` |
-| **Prepared by** | `Uzair Arif` - DFCS Bootcamp, `<<COHORT>>` |
+| **Prepared by** | `Muhammad Uzair Arif` - DFCS Bootcamp, `02-Weekend-ISB` |
 | **Prepared for** | Course assessment (Atomcamp DFCS programme) |
 | **Date of assessment** | `<<ADD DATE>>` |
 | **Classification** | CONFIDENTIAL - training submission |
