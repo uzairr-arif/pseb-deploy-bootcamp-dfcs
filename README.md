@@ -73,10 +73,10 @@ Topics the handouts have already announced for later weekends: operating systems
 
 ## Lab environment
 
-| Role | Operating system | Network |
-|---|---|---|
-| Attacker | Kali Linux | isolated VirtualBox NAT segment |
-| Target | Metasploitable 2 (VulnHub) | same isolated segment |
+| Role | Operating system | Address | Network |
+|---|---|---|---|
+| Attacker | Kali Linux | `10.0.2.4` | VirtualBox NAT |
+| Target | Metasploitable 2 (VulnHub) | `10.0.2.5` | same isolated segment |
 
 Metasploitable 2 is an intentionally vulnerable training machine from VulnHub, kept on an isolated NAT segment so it is unreachable from any real network. Every technique in this portfolio was executed against my own lab only.
 
