@@ -49,6 +49,8 @@ With no `page` value DVWA falls back to `include.php`. The page value is passed 
 
 **PHP 8 note:** requesting `?page=` with a completely empty value crashes the page on PHP 8: `include("")` throws an uncaught `ValueError: Path must not be empty`, which Apache logs as a 500. I hit exactly that and captured it in the Apache error log. On PHP 7 the same request only produced a warning, which is why older DVWA walkthroughs show a different behaviour.
 
+![S10-02b: PHP 8 ValueError rendered in the page after display errors were enabled](Figures/s10-02b-php8-error.png)
+
 ## Step 2: the error message reveals the path
 
 With display errors enabled in the lab (see the note above), request a file that does not exist:
