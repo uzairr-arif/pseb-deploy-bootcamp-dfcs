@@ -45,9 +45,9 @@ Hosting DVWA on Kali matters for Task A: the target is current Kali, so the reve
 http://localhost/dvwa/vulnerabilities/fi/index.php
 ```
 
-With no `page` value DVWA falls back to `include.php`. The page value is passed straight into a PHP `include()` call, unvalidated input reaching an interpreter: the same root cause class as SQL injection, which is why both tasks share one fix pattern.
+The `page` value is passed straight into a PHP `include()` call, unvalidated input reaching an interpreter: the same root cause class as SQL injection, which is why both tasks share one fix pattern. The default `include.php` page renders the lab file list, and DVWA warns that `allow_url_include` is not enabled, so remote file inclusion is off and only local inclusion (LFI) applies here.
 
-![S10-02: File Inclusion page rendering include.php without a page value](Figures/s10-02-empty-param.png)
+![S10-02: the default include.php page rendering](Figures/s10-02-default-include.png)
 
 **PHP 8 note:** requesting `?page=` with a completely empty value crashes the page on PHP 8: `include("")` throws an uncaught `ValueError: Path must not be empty`, which Apache logs as a 500. I hit exactly that and captured it in the Apache error log. On PHP 7 the same request only produced a warning, which is why older DVWA walkthroughs show a different behaviour.
 
@@ -279,7 +279,7 @@ An allowlist inverts the logic. It defines the small set of acceptable values, a
 | File | What it shows |
 |---|---|
 | `Figures/s10-01-dvwa-low.png` | DVWA installed, security Low |
-| `Figures/s10-02-empty-param.png` | File Inclusion with empty parameter |
+| `Figures/s10-02-default-include.png` | The default include.php page rendering |
 | `Figures/s10-03-error-path.png` | Error message revealing the absolute path |
 | `Figures/s10-04-traversal.png` | `/etc/passwd` through traversal |
 | `Figures/s10-05-upload.png` | Webshell uploaded |
