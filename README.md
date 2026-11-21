@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=venom&height=190&text=Digital%20Forensics%20%26%20Cyber%20Security&desc=SC-500%20Weekend%20Bootcamp%20%C2%B7%20PSEB%20DEPLOY%20%C2%B7%20Atomcamp&color=0:0F2D44,100:17A398&textColor=ffffff&descColor=d6e4f7&section=header" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=waving&height=170&text=Digital%20Forensics%20%26%20Cyber%20Security&desc=SC-500%20Weekend%20Bootcamp%20-%20PSEB%20DEPLOY%20-%20Atomcamp&color=0:0F2D44,100:17A398&textColor=ffffff&descColor=d6e4f7&section=header" width="100%" />
 
 # DFCS Bootcamp Portfolio
 
