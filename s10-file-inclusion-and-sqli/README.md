@@ -63,12 +63,12 @@ PHP prints:
 
 ```text
 Warning: include(doesnotexist.txt): Failed to open stream: No such file or directory
-  in /var/www/html/dvwa/vulnerabilities/fi/include.php on line 13
+  in /var/www/html/dvwa/vulnerabilities/fi/index.php on line 36
 Warning: include(): Failed opening 'doesnotexist.txt' for inclusion
-  (include_path='.:/usr/share/php') in /var/www/html/dvwa/vulnerabilities/fi/include.php on line 13
+  (include_path='.:/usr/share/php') in /var/www/html/dvwa/vulnerabilities/fi/index.php on line 36
 ```
 
-**What the path reveals:** the warning leaks the absolute filesystem location of the vulnerable script, `/var/www/html/dvwa/vulnerabilities/fi/include.php`. From that, an attacker knows exactly how many `../` steps reach the filesystem root and where the application keeps its uploads.
+**What the path reveals:** the warnings leak the absolute filesystem location of the vulnerable script, `/var/www/html/dvwa/vulnerabilities/fi/index.php` on line 36, plus the server's include_path. From that, an attacker knows exactly how many `../` steps reach the filesystem root and where the application keeps its uploads.
 
 ![S10-03: PHP warning reveals the absolute path](Figures/s10-03-error-path.png)
 
