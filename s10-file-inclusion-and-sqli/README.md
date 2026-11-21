@@ -37,25 +37,21 @@ Hosting DVWA on Kali matters for Task A: the target is current Kali, so the reve
 
 # Task A - LFI to RCE
 
-## Step 1: the empty parameter
+## Step 1: the page parameter
 
 ```text
-http://localhost/dvwa/vulnerabilities/fi/?page=
+http://localhost/dvwa/vulnerabilities/fi/index.php
 ```
 
-With no `page` value DVWA falls back to `include.php`. The page value is passed straight into a PHP `include()` call:
+With no `page` value DVWA falls back to `include.php`. The page value is passed straight into a PHP `include()` call, unvalidated input reaching an interpreter: the same root cause class as SQL injection, which is why both tasks share one fix pattern.
 
-```php
-<?php $file = $_GET['page']; include($file); ?>
-```
+![S10-02: File Inclusion page rendering include.php without a page value](Figures/s10-02-empty-param.png)
 
-Unvalidated input reaching an interpreter: this is the same root cause class as SQL injection, which is why both tasks share one fix pattern.
-
-![S10-02: File Inclusion page with empty parameter](Figures/s10-02-empty-param.png)
+**PHP 8 note:** requesting `?page=` with a completely empty value crashes the page on PHP 8: `include("")` throws an uncaught `ValueError: Path must not be empty`, which Apache logs as a 500. I hit exactly that and captured it in the Apache error log. On PHP 7 the same request only produced a warning, which is why older DVWA walkthroughs show a different behaviour.
 
 ## Step 2: the error message reveals the path
 
-Request a file that does not exist:
+With display errors enabled in the lab (see the note above), request a file that does not exist:
 
 ```text
 ?page=doesnotexist.txt
