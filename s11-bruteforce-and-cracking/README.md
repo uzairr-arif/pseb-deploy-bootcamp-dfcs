@@ -90,14 +90,18 @@ binwalk photo.jpg
 ## Step 3: crack the passphrase
 
 ```bash
-wget https://github.com/RickdeJager/StegSeek/releases/download/0.7.2/stegseek_0.7.2-1kali1_amd64.deb
-sudo apt install -y ./stegseek_0.7.2-1kali1_amd64.deb
+sudo apt install -y stegseek
 stegseek --crack photo.jpg /usr/share/wordlists/rockyou.txt
 ```
 
 ```text
-[+] Cracked: letmein
+StegSeek 0.6 - https://github.com/RickdeJager/StegSeek
+[i] Found passphrase: "letmein"
+[i] Original filename: "secret.txt".
+[i] Extracting to "photo.jpg.out".
 ```
+
+StegSeek ships in the current Kali repository, so no separate download was needed.
 
 StegSeek tests steghide passphrases orders of magnitude faster than steghide itself.
 
