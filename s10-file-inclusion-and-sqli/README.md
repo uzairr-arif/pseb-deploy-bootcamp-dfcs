@@ -29,7 +29,9 @@ sudo chown -R www-data:www-data /var/www/html/dvwa/hackable/uploads /var/www/htm
 
 Then `http://localhost/dvwa/setup.php` created the database, and I logged in as `admin:password` with DVWA Security set to **Low**.
 
-![S10-01: DVWA installed and security set to Low](Figures/s10-01-dvwa-low.png)
+![S10-01: DVWA welcome dashboard after database setup, logged in as admin](Figures/s10-01-dvwa-low.png)
+
+![S10-01b: DVWA Security page with level set to Low](Figures/s10-01b-security-low.png)
 
 Hosting DVWA on Kali matters for Task A: the target is current Kali, so the reverse shell in the chain runs on exactly the system the handout asks about.
 
