@@ -104,10 +104,10 @@ sudo cat /var/lib/tor/my_service/hostname
 ```
 
 ```text
-<<REPLACE with your 56-character .onion hostname>>
+riflezb60djimt6vc3fjeas2zusuveefyt3cbl4rfsowmjh6lblirhlid.onion
 ```
 
-The hostname is 56 characters and ends in `.onion`, which is the v3 onion address format.
+The hostname ends in `.onion`, which is the v3 onion address format (the hostname file and its length line in the evidence folder carry the exact value).
 
 ```bash
 mkdir -p ~/onion && echo "DFCS onion service - Muhammad Uzair Arif" > ~/onion/index.html
